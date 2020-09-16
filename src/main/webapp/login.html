@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>黑马旅游网-登录</title>  
+    <title>雪花旅游社-登录</title>
     <link rel="stylesheet" type="text/css" href="css/common.css">
     <link rel="stylesheet" type="text/css" href="css/login.css">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -15,9 +15,28 @@
       <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
       <!--导入angularJS文件-->
-    <script src="js/angular.min.js"></script>
+    <!--<script src="js/angular.min.js"></script>-->
 	<!--导入jquery-->
 	<script src="js/jquery-3.3.1.js"></script>
+	<script>
+		$(function () {
+			//1.给登录按钮绑定单击事件
+			$("#btn_sub").click(function () {
+				//2. 发送ajax请求，提交表单数据
+				$.post("user/login",$("#loginForm").serialize(),function (data) {
+					//data： {flag:false,errorMsg:...}
+					if (data.flag){
+						location.href="index.html";
+					}else {
+						$("#errorMsg").html(data.errorMsg);
+						changeCheckCode(document.getElementById("checkCode_img")); //----------验证码错误时自动刷新
+					}
+				});
+			});
+		});
+
+		//3.处理响应结果
+	</script>
 </head>
 
 <body>
@@ -31,28 +50,31 @@
         <div class="login-box">
         	<div class="title">
         		<img src="images/login_logo.png" alt="">
-        		<span>欢迎登录黑马旅游账户</span>
+        		<span>欢迎登录雪花旅游账户</span>
         	</div>
         	<div class="login_inner">
 				
 				<!--登录错误提示消息-->
         		<div id="errorMsg" class="alert alert-danger" ></div>
-				<form id="loginForm" action="" method="post" accept-charset="utf-8">
+				<!--表单-->
+				<form id="loginForm" action="user/login" method="post" accept-charset="utf-8">
         			<input type="hidden" name="action" value="login"/>
 					<input name="username" type="text" placeholder="请输入账号" autocomplete="off">
         			<input name="password" type="text" placeholder="请输入密码" autocomplete="off">
-        			<div class="verify">
-					<input name="check" type="text" placeholder="请输入验证码" autocomplete="off">
-					<span><img src="checkCode" alt="" onclick="changeCheckCode(this)"></span>
-					<script type="text/javascript">
-						//图片点击事件
-						function changeCheckCode(img) {
-							img.src="checkCode?"+new Date().getTime();
-						}
-					</script>
-			</div>
+        			<!--===============验证码===================-->
+					<div class="verify">
+						<input name="check" type="text" placeholder="请输入验证码" autocomplete="off">
+						<span><img src="checkCode" alt="" onclick="changeCheckCode(this)" id="checkCode_img"></span>
+
+						<script type="text/javascript">
+							//图片点击事件
+							function changeCheckCode(img) {
+								img.src="checkCode?"+new Date().getTime();
+							}
+						</script>
+					</div>
 			<div class="submit_btn">
-        				<button type="button">登录</button>
+        				<button type="button" id="btn_sub">登录</button>
         				<div class="auto_login">
         					<input type="checkbox" name="" class="checkbox">
         					<span>自动登录</span>

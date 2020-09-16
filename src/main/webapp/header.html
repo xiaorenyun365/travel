@@ -1,4 +1,29 @@
 <!-- 头部 start -->
+<script>
+    $(function () {
+        //ajax查询用户名
+        $.get("user/findOne",{},function (data) {
+            //{name:王五}
+            var msg = "欢迎回来，"+data.name;
+            $("#span_username").html(msg);
+        });
+
+        //ajax查询分类数据
+        $.get("category/findAll",{},function (data) {
+            //[{cid:1,cname:国内游},{},{}]
+            var lis = '<li class="nav-active"><a href="index.html">首页</a></li>'
+            //遍历数组，拼接字符串 <li>标签
+            for(var i=0; i<data.length; i++){
+                var li = '<li><a href="route_list.html?cid='+data[i].cid+'">'+data[i].cname+'</a></li>';
+                lis += li;
+            }
+            lis += '<li><a href="favoriterank.html">收藏排行榜</a></li>';
+            $("#category").html(lis);
+        });
+
+    });
+</script>
+
     <header id="header">
         <div class="top_banner">
             <img src="images/top_banner.jpg" alt="">
@@ -12,9 +37,10 @@
             <!-- 登录状态  -->
             <div class="login">
             	
-                <span>欢迎回来，admin</span>
+                <span id="span_username"></span>
+
                 <a href="myfavorite.html" class="collection">我的收藏</a>
-                <a href="javascript:;">退出</a>
+                <a href="javascript:location.href='user/exist';">退出</a>
             </div>
         </div>
         <div class="header_wrap">
@@ -32,7 +58,7 @@
                     </div>
                     <div class="hot_tel">
                         <p class="hot_time">客服热线(9:00-6:00)</p>
-                        <p class="hot_num">400-618-9090</p>
+                        <p class="hot_num">400-218-9090</p>
                     </div>
                 </div>
             </div>
@@ -41,8 +67,8 @@
     <!-- 头部 end -->
      <!-- 首页导航 -->
     <div class="navitem">
-        <ul class="nav">
-            <li class="nav-active"><a href="index.html">首页</a></li>
+        <ul class="nav" id="category">
+            <!--<li class="nav-active"><a href="index.html">首页</a></li>
             <li><a href="route_list.html">门票</a></li>
             <li><a href="route_list.html">酒店</a></li>
             <li><a href="route_list.html">香港车票</a></li>
@@ -51,7 +77,7 @@
             <li><a href="route_list.html">港澳游</a></li>
             <li><a href="route_list.html">抱团定制</a></li>
             <li><a href="route_list.html">全球自由行</a></li>
-            <li><a href="favoriterank.html">收藏排行榜</a></li>
+            <li><a href="favoriterank.html">收藏排行榜</a></li>-->
         </ul>
     </div>
     
